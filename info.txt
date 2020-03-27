@@ -1,0 +1,10 @@
+// Module Installed
+--------------------------------
+npm install express
+npm install pg
+npm install -g nodemon
+npm install ejs
+npm install bcryptjs
+npm install body-parser
+npm install express-ejs-layouts
+npm install express-session
