@@ -53,6 +53,19 @@ app.get('/master/add-customer', masterController.add_customer);
 app.get('/master/edit-customer/:id', masterController.edit_customer);
 app.post('/master/add-customer-save', masterController.add_customer_save);
 app.post('/master/edit-customer-save', masterController.edit_customer_save);
+app.get('/master/customer-delete/:id', masterController.customer_delete);
+
+//Item
+app.get('/master/list-item', masterController.list_item);
+app.post('/master/list-item-ajax', masterController.list_item_ajax);
+
+app.get('/master/add-item', masterController.add_item);
+app.get('/master/edit-item/:id', masterController.edit_item);
+app.post('/master/add-item-save', masterController.add_item_save);
+app.post('/master/edit-item-save', masterController.edit_item_save);
+app.get('/master/item-delete/:id', masterController.item_delete);
+
+app.get('/master/get-optgroup', masterController.get_optgroup);
 
 //Group
 app.get('/master/list-group', masterController.list_group);
@@ -62,7 +75,13 @@ app.post('/master/group-get', masterController.group_get);
 app.post('/master/group-edit', masterController.group_edit);
 app.get('/master/group-delete/:id', masterController.group_delete);
 
-
+//Wine Group
+app.get('/master/list-wine-group', masterController.list_wine_group);
+app.post('/master/list-wine-group-ajax', masterController.list_wine_group_ajax);
+app.post('/master/wine-group-add', masterController.wine_group_add);
+app.post('/master/wine-group-get', masterController.wine_group_get);
+app.post('/master/wine-group-edit', masterController.wine_group_edit);
+app.get('/master/wine-group-delete/:id', masterController.wine_group_delete);
 
 //Bill
 var billController = require("../controllers/billController");

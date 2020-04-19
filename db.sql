@@ -11,21 +11,21 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
--- Dumping structure for table acpanel.company_details
+-- Dumping structure for table acpanelacpanelacpanelacpanel.company_details
 DROP TABLE IF EXISTS `company_details`;
 CREATE TABLE IF NOT EXISTS `company_details` (
-  `company_name` varchar(255) DEFAULT NULL,
-  `address` int(11) DEFAULT NULL,
+  `company_name` VARCHAR(100) DEFAULT NULL,
+  `address` text DEFAULT NULL,
   `remarks` text,
   `dt_from` date DEFAULT NULL,
   `dt_to` date DEFAULT NULL,
-  `gst` varchar(5) DEFAULT NULL,
-  `cgst` varchar(5) DEFAULT NULL,
-  `sgst` varchar(5) DEFAULT NULL,
+  `gst` DECIMAL(5,2) DEFAULT NULL,
+  `cgst` DECIMAL(5,2) DEFAULT NULL,
+  `sgst` DECIMAL(5,2) DEFAULT NULL,
   `bill_start_no` int(11) DEFAULT NULL,
   `bill_copy` int(2) DEFAULT NULL,
-  `bill_prefix` varchar(50) DEFAULT NULL,
-  `bill_reset_monthly` enum('Y','N') DEFAULT 'Y'
+  `bill_prefix` VARCHAR(10) DEFAULT NULL,
+  `bill_reset_monthly` enum('Yes','No') DEFAULT 'Yes'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumping data for table acpanel.company_details: ~0 rows (approximately)
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `customers` (
   `address` varchar(255) NOT NULL,
   `phone` varchar(50) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
-  `discount_rate` varchar(20) DEFAULT NULL,
+  `discount_rate` DECIMAL(5,2) DEFAULT NULL,
   `created_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
@@ -48,41 +48,80 @@ CREATE TABLE IF NOT EXISTS `customers` (
 -- Dumping data for table acpanel.customers: ~18 rows (approximately)
 /*!40000 ALTER TABLE `customers` DISABLE KEYS */;
 INSERT INTO `customers` (`id`, `name`, `address`, `phone`, `email`, `discount_rate`, `created_on`) VALUES
-	(1, 'Bivash Das', 'kolkata', '08981172322', 'bivashpal2007@gmail.com', '3', '2020-02-23 21:01:39'),
-	(2, 'Bivash Pal', 'kolkata', '08981172322', 'bivashpal2008@gmail.com', '3', '2020-02-09 17:15:19'),
-	(3, 'Bivash Pal', 'kolkata', '08981172322', 'bivashpal2008@gmail.com', '3', '2020-02-09 17:15:38'),
-	(4, 'Bivash Pal', 'kolkata', '08981172322', 'bivashpal2007@gmail.com', '5', '2020-02-09 17:17:13'),
-	(5, 'Bivash Pal', 'kolkata', '08981172322', 'bivashpal2007@gmail.com', '44', '2020-02-09 17:57:40'),
-	(6, 'Bivash Pal', 'kolkata', '08981172322', 'bivashpal2007@gmail.com', '3', '2020-02-09 18:09:33'),
-	(7, 'Bivash Pal', 'kolkata', '08981172322', 'bivashpal2007@gmail.com', '3', '2020-02-09 18:26:00'),
-	(8, 'Bivash Pal', 'kolkata', '08981172322', 'bivashpal2007@gmail.com', '35', '2020-02-09 18:27:41'),
-	(9, 'Bivash Pal', 'kolkata', '08981172322', 'bivashpal2007@gmail.com', '88', '2020-02-09 18:32:41'),
-	(10, 'Bivash Pal', 'kolkata', '08981172322', 'bivashpal2007@gmail.com', '88', '2020-02-09 18:34:15'),
-	(11, 'Bivash Pal', 'kolkata', '08981172322', 'bivashpal2007@gmail.com', '57', '2020-02-09 18:54:01'),
-	(12, 'akash halder', 'kolkata', '08981172322', 'akash@gmail.com', '8.5', '2020-02-22 22:31:44'),
-	(13, 'Bivash Pal', 'kolkata', '08981172322', 'bivashpal2007@gmail.com', '5', '2020-02-23 20:34:02'),
-	(14, 'sssssssssssssss', 'kolkata', '08981172322', 'akash@gmail.com', '8.5', '2020-02-23 21:01:14'),
-	(15, '14,12,akash halder1', 'kolkata', '08981172322', 'akash@gmail.com', '8.5', '2020-02-23 20:45:35'),
-	(16, '14,wwwwwwwww', 'kolkata', '08981172322', 'akash@gmail.com', '8.5', '2020-02-23 20:47:48'),
-	(17, '14,12,akash halder1', 'kolkata', '08981172322', 'akash@gmail.com', '8.5', '2020-02-23 20:48:59'),
-	(18, 'uuuuuuuuuuu', 'kolkata', '08981172322', 'akash@gmail.com', '8.5', '2020-02-23 21:02:04');
+	(1, 'Bivash Das', 'kolkata', '08981172322', 'bivashpal2007@gmail.com', 10, '2020-02-23 21:01:39'),
+	(2, 'Bivash Pal', 'kolkata', '08981172322', 'bivashpal2008@gmail.com', 10, '2020-02-09 17:15:19'),
+	(3, 'Bivash Pal', 'kolkata', '08981172322', 'bivashpal2008@gmail.com', 15, '2020-02-09 17:15:38'),
+	(4, 'Bivash Pal', 'kolkata', '08981172322', 'bivashpal2007@gmail.com', 15, '2020-02-09 17:17:13'),
+	(5, 'uuuuuuuuuuu', 'kolkata', '08981172322', 'akash@gmail.com', 20, '2020-02-23 21:02:04');
 /*!40000 ALTER TABLE `customers` ENABLE KEYS */;
 
 -- Dumping structure for table acpanel.group_master
 DROP TABLE IF EXISTS `group_master`;
 CREATE TABLE IF NOT EXISTS `group_master` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `group_name` varchar(70) NOT NULL,
+  `name` VARCHAR(50) NOT NULL,
   `status` enum('Active','Inactive') NOT NULL DEFAULT 'Active',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table acpanel.group_master: ~2 rows (approximately)
 /*!40000 ALTER TABLE `group_master` DISABLE KEYS */;
-INSERT INTO `group_master` (`id`, `group_name`, `status`) VALUES
+INSERT INTO `group_master` (`id`, `name`, `status`) VALUES
 	(1, 'wwww', 'Active'),
 	(3, 'Chainees', 'Active');
 /*!40000 ALTER TABLE `group_master` ENABLE KEYS */;
+
+-- Dumping structure for table acpanel.wine_group_master
+DROP TABLE IF EXISTS `wine_group_master`;
+CREATE TABLE IF NOT EXISTS `wine_group_master` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR (50) NOT NULL,
+  `status` enum('Active','Inactive') NOT NULL DEFAULT 'Active',
+  `serial` int(5) NOT NULL ,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table acpanel.wine_group_master: ~2 rows (approximately)
+/*!40000 ALTER TABLE `wine_group_master` DISABLE KEYS */;
+INSERT INTO `wine_group_master` (`id`, `name`, `status` , `serial`) VALUES
+	(1, 'Royal Stag', 'Active', 1),
+	(3, 'Teachers', 'Active',2);
+/*!40000 ALTER TABLE `wine_group_master` ENABLE KEYS */;
+
+
+-- Dumping structure for table acpanel.item_master
+DROP TABLE IF EXISTS `item_master`;
+CREATE TABLE IF NOT EXISTS `item_master` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(70) NOT NULL,
+  `status` enum('Active','Inactive') NOT NULL DEFAULT 'Active',
+  `rate` decimal(11,2) NOT NULL ,
+  `f_rate` decimal(11,2) NOT NULL ,
+  `mrp` decimal(11,2) NOT NULL ,
+  `itcode` VARCHAR(10) NOT NULL,
+  `group` VARCHAR(50) NOT NULL,
+  `bartype` int(1) NOT NULL DEFAULT 0,
+  `tax_type` enum('Taxable','Non Taxable') NOT NULL DEFAULT 'Taxable',
+  `food_type` enum('Food','Drinks','Others') NOT NULL DEFAULT 'Food',
+  `half` int(1) NOT NULL DEFAULT 0,
+  `altcode` VARCHAR(10) NOT NULL,
+  `peg` DECIMAL(5,2) NOT NULL DEFAULT 0.00,
+  `stock` int(1) NOT NULL DEFAULT 0,
+  `mltype` ENUM('','100 ML','750 ML','375 ML','PEG') NOT NULL DEFAULT '',
+  `winetype` ENUM('','Whiskey','Vodka','Rum','Beer','Wine','Scotch','Others') NOT NULL DEFAULT '',
+  `special` int(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+-- Dumping data for table acpanel.item_master: ~2 rows (approximately)
+/*!40000 ALTER TABLE `item_master` DISABLE KEYS */;
+INSERT INTO `item_master` (`id`, `name` ) VALUES
+	(1, 'Royal Stag'),
+	(3, 'Teachers');  
+	
+/*!40000 ALTER TABLE `wine_group_master` ENABLE KEYS */;
+
+
 
 -- Dumping structure for table acpanel.user_master
 DROP TABLE IF EXISTS `user_master`;
@@ -100,6 +139,3 @@ INSERT INTO `user_master` (`id`, `username`, `password`, `status`) VALUES
 	(1, 'admin', 'admin', 'Y');
 /*!40000 ALTER TABLE `user_master` ENABLE KEYS */;
 
-/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

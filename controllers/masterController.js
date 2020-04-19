@@ -13,14 +13,13 @@ module.exports = {
     res.render('Master/customer_list', {response:responseData});
   }, 
   */
-
+  //Customer
   add_customer: function(req, res) {
     var responseData = {
       requestUrl : req.originalUrl,
       message_success:req.flash('success'),
-     
     }
-    res.render('Master/customer_add', {response:responseData});
+     res.render('Master/customer_add', {response:responseData});
   }, 
 
   add_customer_save: function(req, res) {        
@@ -57,6 +56,12 @@ module.exports = {
     res.render('Master/customer_list', {response:responseData});
   },
 
+  customer_delete: function(req, res) {   
+    masterModel.delete_customer(req.params.id,function(err, result){  
+      req.flash('success', 'One customer has been deleted successfully');
+      res.redirect('/master/list-customer');
+    });
+  }, 
 
   list_customer_ajax: function(req, res) {   
     masterModel.list_customer(req.body,function(err, result,recordCount){     
@@ -73,6 +78,88 @@ module.exports = {
   },
 
 
+  //Item
+  add_item: function(req, res) {
+    masterModel.get_optgroup(req,function(err, result){ 
+    var responseData = {
+      requestUrl : req.originalUrl,
+      message_success:req.flash('success'),
+      group:result
+    }
+    res.render('Master/item_add', {response:responseData});
+    });
+
+  }, 
+
+  add_item_save: function(req, res) {        
+    masterModel.add_item(req.body,function(err, result){  
+      req.flash('success', 'One menu record inserted');
+      res.redirect('/master/add-item');
+    });
+  }, 
+
+  edit_item_save: function(req, res) {
+    console.log(req.body);        
+    masterModel.edit_item(req.body,function(err, result){  
+      req.flash('success', 'One menu record updated');
+      res.redirect('/master/edit-item/'+req.body.id);
+    });
+  }, 
+
+
+  edit_item: function(req, res) {    
+    masterModel.get_item(req.params.id,function(err, result){  
+      //console.log(result);
+      var responseData = {
+        requestUrl : req.originalUrl,
+        data:result,     
+      }
+      res.render('Master/item_edit', {response:responseData});
+    });
+  }, 
+
+  item_delete: function(req, res) {   
+    masterModel.delete_item(req.params.id,function(err, result){  
+      req.flash('success', 'One menu has been deleted successfully');
+      res.redirect('/master/list-item');
+    });
+  }, 
+
+  get_optgroup: function(req, res) {   
+    masterModel.get_optgroup(req.params.type,function(err, result){  
+      req.flash('success', 'One menu has been deleted successfully');
+      if(req.params.type === 'A')
+      {
+        res.redirect('/master/add-item');
+      }
+      else
+      {
+        res.redirect('/master/edit-item');
+      }
+    });
+  }, 
+
+  list_item: function(req, res) {
+    var responseData = {
+      requestUrl : req.originalUrl,  
+    }
+    res.render('Master/item_list', {response:responseData});
+  },
+
+
+  list_item_ajax: function(req, res) {   
+    masterModel.list_item(req.body,function(err, result,recordCount){     
+      var responseData = {
+        draw              :  req.body.draw,
+        recordsTotal      :  recordCount,
+        recordsFiltered   :  recordCount,
+        message_success   :  req.flash('success'),
+        data              :  result
+      };      
+      res.contentType('application/json');
+      res.send(JSON.stringify(responseData));
+    });
+  },
 
 
   //Group
@@ -123,5 +210,52 @@ module.exports = {
     });
   }, 
   
+  //Wine Group
+  
+  list_wine_group: function(req, res) {
+    var responseData = {
+      requestUrl      : req.originalUrl,     
+      message_success :  req.flash('success'),   
+    }
+    res.render('Master/wine_group_list', {response:responseData});
+  },
+
+  list_wine_group_ajax: function(req, res) {
+    masterModel.list_wine_member_ajax(req.body,function(err, result,recordCount){     
+      var responseData = {
+        draw              :  req.body.draw,
+        recordsTotal      :  recordCount,
+        recordsFiltered   :  recordCount,
+        message_success   :  req.flash('success'),
+        data              :  result
+      };      
+      res.contentType('application/json');
+      res.send(JSON.stringify(responseData));
+    });
+  },
+  wine_group_add: function(req, res) {        
+    masterModel.add_wine_group(req.body,function(err, result){  
+      req.flash('success', 'One Wine group inserted successfully');
+      res.redirect('/master/list-wine-group');
+    });
+  }, 
+  wine_group_get: function(req, res) {
+    masterModel.get_wine_group(req.body,function(err, result){  
+      res.contentType('application/json');
+      res.send(JSON.stringify(result));      
+    });
+  }, 
+  wine_group_edit: function(req, res) {  
+    masterModel.edit_wine_group(req.body,function(err, result){  
+      req.flash('success', 'One wine group has been updated successfully');
+      res.redirect('/master/list-wine-group');
+    });
+  }, 
+  wine_group_delete: function(req, res) {   
+    masterModel.delete_wine_group(req.params.id,function(err, result){  
+      req.flash('success', 'One wine group has been deleted successfully');
+      res.redirect('/master/list-wine-group');
+    });
+  }, 
 
 };
