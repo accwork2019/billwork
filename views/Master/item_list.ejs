@@ -1,0 +1,119 @@
+<% include ../Common/header  %>
+    <!-- left sidebar -->
+    <% include ../Common/side-menu  %>
+    <!-- end left sidebar -->
+        <!-- ============================================================== -->
+        <!-- wrapper  -->
+        <!-- ============================================================== -->
+        <div class="dashboard-wrapper">
+            <div class="container-fluid  dashboard-content">
+                <!-- ============================================================== -->
+                <!-- pageheader -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="page-header row">
+                            <div class="col-md-6">
+                                <h4 class="pageheader-title">Menu List</h4>
+                            </div>
+                            <div class="col-md-6 text-md-right">
+                              <a href="/master/add-item"> <i class="fas fa-plus-square"></i> Add New </a>
+                            </div>                           
+                        </div>
+                    </div>
+                </div> 
+                <!-- ============================================================== -->
+                <!-- end pageheader -->
+                <!-- ============================================================== -->                
+              
+                <div class="row">
+                    <!-- ============================================================== -->
+                    <!-- data table multiselects  -->
+                    <!-- ============================================================== -->
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <% if(response.message_success){ %>
+                        <div class="alert alert-success" role="alert">
+                            <%= response.message_success %>
+                        </div>
+                        <% } %>
+
+                        <div class="card">
+                          
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="listGrid" class="table table-striped table-bordered" style="width:100%">
+                                        <thead class="bg-primary">
+                                            <tr>
+                                                <th class="text-white">Item Name</th>   
+                                                <th class="text-white">Item Code</th> 
+                                                <th class="text-white">Rate</th>                                             
+                                                <th class="text-white">Festival Rate</th>  
+                                                <th class="text-white">Tax Type</th>  
+                                                <th class="text-white">Food Type</th>  
+                                                <th class="text-white all" width="200">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody> </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Item Name</th>  
+                                                <th>Item Code</th>  
+                                                <th>Rate</th>                                                
+                                                <th>Festival Rate</th>
+                                                <th>Tax Type</th>  
+                                                <th>Food Type</th>       
+                                                <th>Action</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ============================================================== -->
+                    <!-- end data table multiselects  -->
+                    <!-- ============================================================== -->
+                </div>
+            </div>
+
+            <!-- ACTION BUTTONS -->
+            <div id="listGridActionButtons" data-fields="id" style="display: none;">
+            <td>
+            <a href="#" onclick="script:edit_item([id]);"> <i class="fas fa-edit"></i> Edit</a>
+            &nbsp; <a href="#" onclick="script:confirm_delete('/master/item-delete/[id]');"><i class="fas fa-trash-alt"></i> Delete</a> </td>
+            </div>
+
+                   
+<script>
+
+var listGridajaxURL = '/master/list-item-ajax';
+var listGridColumns = [               
+                        { data: 'name' },     
+                        { data: 'itcode' },
+                        { data: 'rate' },     
+                        { data: 'f_rate' },
+                        { data: 'tax_type' },
+                        { data: 'food_type' }
+                      ];  
+
+var listGridActionCol = [
+                            {                                                                        
+                            className:  "position",
+                                        "targets": [6],
+                                        "render": function ( data, type, row ) {                                                
+                                            var action_link =  $("#listGridActionButtons").html();
+                                            var replace_value = $("#listGridActionButtons").attr('data-fields');
+                                            var filds_array = replace_value.split(',');
+                                            for(var i=0; i<=filds_array.length-1; i++){
+                                                var field = filds_array[i];
+                                                action_link = action_link.replace('['+filds_array[i]+']',row[field]);  
+                                                action_link = action_link.replace('['+filds_array[i]+']',row[field]);                                                  
+                                            }                                                
+                                            return action_link;
+                                        }
+                            },
+                            { "visible": true,  "targets": [2] },
+                            { "targets": 2,   "orderable": false }                
+                        ];
+</script>
+<% include ../Common/footer  %>
