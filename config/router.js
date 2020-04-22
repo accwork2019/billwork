@@ -65,8 +65,6 @@ app.post('/master/add-item-save', masterController.add_item_save);
 app.post('/master/edit-item-save', masterController.edit_item_save);
 app.get('/master/item-delete/:id', masterController.item_delete);
 
-app.get('/master/get-optgroup', masterController.get_optgroup);
-
 //Group
 app.get('/master/list-group', masterController.list_group);
 app.post('/master/list-group-ajax', masterController.list_group_ajax);

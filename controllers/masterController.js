@@ -125,20 +125,6 @@ module.exports = {
     });
   }, 
 
-  get_optgroup: function(req, res) {   
-    masterModel.get_optgroup(req.params.type,function(err, result){  
-      req.flash('success', 'One menu has been deleted successfully');
-      if(req.params.type === 'A')
-      {
-        res.redirect('/master/add-item');
-      }
-      else
-      {
-        res.redirect('/master/edit-item');
-      }
-    });
-  }, 
-
   list_item: function(req, res) {
     var responseData = {
       requestUrl : req.originalUrl,  

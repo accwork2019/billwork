@@ -65,7 +65,7 @@
 
                                             <div class="col-md-2">Group</div>
                                             <div class="col-md-2">
-                                                <select class="form-control" name="group" id="group">
+                                                <select class="form-control" name="grcode" id="grcode">
                                                     
                                                     <% 
                                                     if(typeof response.group.length != 'undefined'){
@@ -74,13 +74,6 @@
                                                     <% }
                                                      }
                                                     %> 
-                                                    <!-- <option value="Whiskey">Whiskey</option>
-                                                    <option value="Vodka">Vodka</option>
-                                                    <option value="Rum">Rum</option>
-                                                    <option value="Beer">Beer</option>
-                                                    <option value="Wine">Wine</option>
-                                                    <option value="Scotch">Scotch</option>
-                                                    <option value="Others">Others</option> -->
                                                 </select>
                                             </div>
                                         </div>
@@ -101,7 +94,7 @@
 
                                             <div class="col-md-2">Bar Menu</div>
                                             <div class="col-md-2">
-                                                <input type="checkbox" name="bartype" class="form-control">
+                                                <input type="checkbox" name="bartype" class="form-control" value="1">
                                             </div>
                                         </div>
 
@@ -118,7 +111,7 @@
 
                                             <div class="col-md-2">MRP</div>
                                             <div class="col-md-2">
-                                                <input type="number" name="mrp" class="form-control">
+                                                <input type="number" name="mrp" class="form-control" value=0>
                                             </div>
                                         </div>
 
@@ -134,7 +127,7 @@
 
                                             <div class="col-md-2">Half Menu</div>
                                             <div class="col-md-2">
-                                                <input type="checkbox" name="half" class="form-control">
+                                                <input type="checkbox" name="half" class="form-control" value="1">
                                             </div>
 
                                             <div class="col-md-2">Alternate Code</div>
@@ -146,12 +139,12 @@
                                         <div class="form-group row">
                                             <div class="col-md-2">Stock</div>
                                             <div class="col-md-2">
-                                                <input type="checkbox" name="stock" class="form-control">
+                                                <input type="checkbox" name="stock" class="form-control" value="1">
                                             </div>
 
                                             <div class="col-md-2">No of Peg</div>
                                             <div class="col-md-2">
-                                                <input type="number" name="peg" class="form-control">
+                                                <input type="number" name="peg" class="form-control" value=0>
                                             </div>
                                         </div>
                                         
@@ -169,7 +162,7 @@
                                             <div class="col-md-2">Wine Type</div>
                                             <div class="col-md-2">
                                                 <select class="form-control" name="winetype" id="winetype">
-                                                    <option value="WhiskeyL">Whiskey</option>
+                                                    <option value="Whiskey">Whiskey</option>
                                                     <option value="Vodka">Vodka</option>
                                                     <option value="Rum">Rum</option>
                                                     <option value="Beer">Beer</option>
@@ -203,20 +196,6 @@
             </div>
             
             <script>
-            function get_optgroup(){  
-                $.ajax({
-                    method: "POST",
-                    url: "/master/get_optgroup",
-                    type:JSON,
-                    data: { type : 'A' }
-                })
-                .done(function( data ) {      
-                $("#modalEdit").find("input[name='name']").val(data[0].name);
-                $("#group-status").val(data[0].status);
-                $("#group-serial").val(data[0].serial);   
-                });
-            }
-
             $('#form').parsley();
             </script> 
 <% include ../Common/footer  %> 

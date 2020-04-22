@@ -7,7 +7,7 @@ module.exports = {
   //Customer
   add_customer: function(post, controllerCallback) {    
     var sql = " INSERT INTO customers (name,address,phone,email,discount_rate) "
-            + " VALUES('"+post.name+"','"+post.address+"','"+post.phone+"','"+post.email+"','"+post.discount_rate+"') ";    
+            + " VALUES('"+post.name+"','"+post.address+"','"+post.phone+"','"+post.email+"',"+post.discount_rate+") ";    
     dbObject.query(sql, (err, result) => {     
       controllerCallback(err, result);      
     })
@@ -62,9 +62,12 @@ module.exports = {
   //Item
   add_item: function(post, controllerCallback) {
     if(typeof post.special === 'undefined' )  post.special = 0;
+    if(typeof post.stock === 'undefined' )  post.stock = 0;
+    if(typeof post.half === 'undefined' )  post.half = 0;
+    if(typeof post.bartype === 'undefined' )  post.bartype = 0;
     
-    var sql = " INSERT INTO item_master(name,itcode,rate,f_rate,mrp,group,bartype,tax_type,food_type,half,altcode,peg,stock,mltype,winetype,special,status) "
-            + " VALUES('"+post.name+"','"+post.itcode+"',"+post.rate+","+post.f_rate+","+post.mrp+",'"+post.group+"',"+post.bartype+",'"+post.tax_type+"','"+post.food_type+"',"+post.half+",'"+post.altcode+"',"+post.peg+","+post.stock+",'"+post.mltype+"','"+post.winetype+"',"+post.special+",'"+post.status+"') ";    
+    var sql = " INSERT INTO item_master(name,itcode,rate,f_rate,mrp,grcode,bartype,tax_type,food_type,half,altcode,peg,stock,mltype,winetype,special) "
+            + " VALUES('"+post.name+"','"+post.itcode+"',"+post.rate+","+post.f_rate+","+post.mrp+",'"+post.grcode+"',"+post.bartype+",'"+post.tax_type+"','"+post.food_type+"',"+post.half+",'"+post.altcode+"',"+post.peg+","+post.stock+",'"+post.mltype+"','"+post.winetype+"',"+post.special+") ";    
     console.log('sql' ,sql);
     dbObject.query(sql, (err, result) => {     
       controllerCallback(err, result);      
