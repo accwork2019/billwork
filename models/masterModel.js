@@ -75,11 +75,17 @@ module.exports = {
         
   },
 
-  edit_item: function(post, controllerCallback) {    
-   // var sql = " UPDATE item_master SET name='"+post.name+"',address ='"+post.address+"',phone='"+post.phone+"',email='"+post.email+"',discount_rate='"+post.discount_rate+"' WHERE id='"+post.id+"'";   
+  edit_item: function(post, controllerCallback) { 
+    if(typeof post.special === 'undefined' )  post.special = 0;
+    if(typeof post.stock === 'undefined' )  post.stock = 0;
+    if(typeof post.half === 'undefined' )  post.half = 0;
+    if(typeof post.bartype === 'undefined' )  post.bartype = 0;
+    
+   var sql = " UPDATE item_master SET name='"+post.name+"',rate ="+post.rate+",f_rate="+post.f_rate+",mrp="+post.mrp+",itcode='"+post.itcode+"',grcode="+post.grcode+",bartype="+post.bartype+",tax_type='"+post.tax_type+"',food_type='"+post.food_type+"',half="+post.half+",altcode='"+post.altcode+"',peg="+post.peg+",stock="+post.stock+",mltype='"+post.mltype+"',winetype='"+post.winetype+"',special="+post.special+" WHERE id='"+post.id+"'";   
     dbObject.query(sql, (err, result) => {     
       controllerCallback(err, result);      
-    })        
+    }) 
+    console.log('sql',sql);       
   },
 
   delete_item: function(id, controllerCallback) {    
@@ -121,7 +127,7 @@ module.exports = {
 
   
   get_item: function(id, controllerCallback) {   
-    var sql = "SELECT id,name,itcode,rate,f_rate,tax_type,food_type FROM item_master WHERE id = '"+id+"'"; 
+    var sql = "SELECT * FROM item_master WHERE id = '"+id+"'"; 
     dbObject.query(sql, (err, result) => {     
       controllerCallback(err, result);      
     })     

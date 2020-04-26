@@ -29,8 +29,7 @@ module.exports = {
     });
   }, 
 
-  edit_customer_save: function(req, res) {
-    console.log(req.body);        
+  edit_customer_save: function(req, res) {       
     masterModel.edit_customer(req.body,function(err, result){  
       req.flash('success', 'One customer record updated');
       res.redirect('/master/edit-customer/'+req.body.id);
@@ -99,7 +98,6 @@ module.exports = {
   }, 
 
   edit_item_save: function(req, res) {
-    console.log(req.body);        
     masterModel.edit_item(req.body,function(err, result){  
       req.flash('success', 'One menu record updated');
       res.redirect('/master/edit-item/'+req.body.id);
@@ -107,16 +105,36 @@ module.exports = {
   }, 
 
 
-  edit_item: function(req, res) {    
-    masterModel.get_item(req.params.id,function(err, result){  
-      //console.log(result);
-      var responseData = {
-        requestUrl : req.originalUrl,
-        data:result,     
-      }
-      res.render('Master/item_edit', {response:responseData});
+  edit_item: function(req, res) {  
+    masterModel.get_optgroup(req,function(err, result1){   
+      masterModel.get_item(req.params.id,function(err, result){  
+        var responseData = {
+          requestUrl : req.originalUrl,
+          data:result, 
+          group:result1    
+        }
+        console.log('result ',result);
+        res.render('Master/item_edit', {response:responseData});
+      });
     });
+    // masterModel.get_item(req.params.id,function(err, result){  
+    //   var responseData = {
+    //     requestUrl : req.originalUrl,
+    //     data:result   
+    //   }
+    //    res.render('Master/item_edit', {response:responseData});
+    // });
   }, 
+
+  // export_item: function(req, res) { 
+  //   masterModel.export_item(req.params.id,function(err, result){  
+  //     var responseData = {
+  //       requestUrl : req.originalUrl,
+  //       data:result   
+  //     }
+       
+  //   });
+  // }, 
 
   item_delete: function(req, res) {   
     masterModel.delete_item(req.params.id,function(err, result){  

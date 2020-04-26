@@ -61,13 +61,12 @@
                                         <div class="form-group row">
                                             <div class="col-md-2">Name</div>
                                             <div class="col-md-6">
-                                                <input type="text" required="" name="name" class="form-control">
+                                                <input type="text" required="" name="name" class="form-control" value="<%= response.data[0].name %>">
                                             </div> 
 
                                             <div class="col-md-2">Group</div>
                                             <div class="col-md-2">
-                                                <select class="form-control" name="grcode" id="grcode">
-                                                    
+                                                <select class="form-control" name="grcode" id="grcode" value="<%= response.data[0].grcode %>">         
                                                     <% 
                                                     if(typeof response.group.length != 'undefined'){
                                                     for(var i=0; i < response.group.length; i++) { %>
@@ -82,12 +81,12 @@
                                         <div class="form-group row">
                                             <div class="col-md-2">Item Code</div>
                                             <div class="col-md-2">
-                                                <input type="text" required="" name="itcode" class="form-control">
+                                                <input type="text" required="" name="itcode" class="form-control" value="<%= response.data[0].itcode %>">
                                             </div>
 
                                             <div class="col-md-2">Tax Type</div>
                                             <div class="col-md-2">
-                                                <select class="form-control" name="tax_type" id="taxtype">
+                                                <select class="form-control" name="tax_type" id="taxtype" value="<%= response.data[0].taxtype %>">
                                                     <option value="Taxable">Taxable</option>
                                                     <option value="Non Taxable">Non Taxable</option>
                                                 </select>
@@ -95,31 +94,31 @@
 
                                             <div class="col-md-2">Bar Menu</div>
                                             <div class="col-md-2">
-                                                <input type="checkbox" name="bartype" class="form-control" value="1">
+                                                <input type="checkbox" name="bartype" class="form-control" value="1" value="<%= response.data[0].bartype %>">
                                             </div>
                                         </div>
 
                                         <div class="form-group row">   
                                             <div class="col-md-2">Rate</div>
                                             <div class="col-md-2">
-                                                <input type="number" required="" name="rate" class="form-control">
+                                                <input type="number" required="" name="rate" class="form-control" value="<%= response.data[0].rate %>">
                                             </div>
 
                                             <div class="col-md-2">Festival Rate</div>
                                             <div class="col-md-2">
-                                                <input type="number" name="f_rate" class="form-control">
+                                                <input type="number" name="f_rate" class="form-control" value="<%= response.data[0].f_rate %>">
                                             </div>
 
                                             <div class="col-md-2">MRP</div>
                                             <div class="col-md-2">
-                                                <input type="number" name="mrp" class="form-control" value=0>
+                                                <input type="number" name="mrp" class="form-control" value=0 value="<%= response.data[0].mrp %>">
                                             </div>
                                         </div>
 
                                         <div class="form-group row"> 
                                             <div class="col-md-2">Food Type</div>
                                             <div class="col-md-2">
-                                                <select class="form-control" name="food_type" id="foodtype">
+                                                <select class="form-control" name="food_type" id="foodtype" value="<%= response.data[0].foodtype %>">
                                                     <option value="Food">Food</option>
                                                     <option value="Drinks">Drinks</option>
                                                     <option value="Others">Others</option>
@@ -128,31 +127,31 @@
 
                                             <div class="col-md-2">Half Menu</div>
                                             <div class="col-md-2">
-                                                <input type="checkbox" name="half" class="form-control" value="1">
+                                                <input type="checkbox" name="half" class="form-control" value="1" value="<%= response.data[0].half %>">
                                             </div>
 
                                             <div class="col-md-2">Alternate Code</div>
                                             <div class="col-md-2">
-                                                <input type="text" name="altcode" class="form-control">
+                                                <input type="text" name="altcode" class="form-control" value="<%= response.data[0].altcode %>">
                                             </div>
                                         </div>    
                                         
                                         <div class="form-group row">
                                             <div class="col-md-2">Stock</div>
                                             <div class="col-md-2">
-                                                <input type="checkbox" name="stock" class="form-control" value="1">
+                                                <input type="checkbox" name="stock" class="form-control" value="1" value="<%= response.data[0].stock %>">
                                             </div>
 
                                             <div class="col-md-2">No of Peg</div>
                                             <div class="col-md-2">
-                                                <input type="number" name="peg" class="form-control" value=0>
+                                                <input type="number" name="peg" class="form-control" value=0 value="<%= response.data[0].peg %>">
                                             </div>
                                         </div>
                                         
                                         <div class="form-group row">
                                             <div class="col-md-2">ML</div>
                                             <div class="col-md-2">
-                                                <select class="form-control" name="mltype" id="mltype">
+                                                <select class="form-control" name="mltype" id="mltype" value="<%= response.data[0].mltype %>">
                                                     <option value="100 ML">100 ML</option>
                                                     <option value="750 ML">750 ML</option>
                                                     <option value="375 ML">375 ML</option>
@@ -162,7 +161,7 @@
                                             
                                             <div class="col-md-2">Wine Type</div>
                                             <div class="col-md-2">
-                                                <select class="form-control" name="winetype" id="winetype">
+                                                <select class="form-control" name="winetype" id="winetype" value="<%= response.data[0].winetype %>">
                                                     <option value="Whiskey">Whiskey</option>
                                                     <option value="Vodka">Vodka</option>
                                                     <option value="Rum">Rum</option>
@@ -174,7 +173,7 @@
                                             </div>
                                             <div class="col-md-2">Special Menu</div>
                                             <div class="col-md-2">
-                                                <input type="checkbox" name="special" class="form-control" value="1">
+                                                <input type="checkbox" name="special" class="form-control" value="1" value="<%= response.data[0].special %>">
                                             </div>
                                         </div>
 

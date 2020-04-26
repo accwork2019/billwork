@@ -18,6 +18,7 @@
                             </div>
                             <div class="col-md-6 text-md-right">
                               <a href="/master/add-item"> <i class="fas fa-plus-square"></i> Add New </a>
+                              <a href="/master/export-item"> <i class="fas fa-plus-square"></i> Export </a>
                             </div>                           
                         </div>
                     </div>
@@ -115,5 +116,9 @@ var listGridActionCol = [
                             { "visible": true,  "targets": [2] },
                             { "targets": 2,   "orderable": false }                
                         ];
+
+function edit_item(id){
+    location.href= '/master/edit-item/'+id;
+}
 </script>
 <% include ../Common/footer  %>
