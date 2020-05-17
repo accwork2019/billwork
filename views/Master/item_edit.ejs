@@ -1,6 +1,8 @@
 <% include ../Common/header  %>
     <!-- left sidebar -->
-    <% include ../Common/side-menu  %>
+    <% include ../Common/side-menu  
+    var selectedTxt = ''; 
+    %>
     <!-- end left sidebar -->
 
         <!-- ============================================================== -->
@@ -41,23 +43,25 @@
                 <!-- ============================================================== -->                
 
                 <div class="row">
-                        
-                        <!-- ============================================================== -->
-                        <!-- valifation types -->
-                        <!-- ============================================================== -->
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                <% if(response.message_success){ %>
-                                <div class="alert alert-success" role="alert">
-                                    <%= response.message_success %>
-                                </div>
-                                <% } %>
-                            <div class="card">
-                                <h5 class="card-header">Edit Menu</h5>
+                    
+                    <!-- ============================================================== -->
+                    <!-- valifation types -->
+                    <!-- ============================================================== -->
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <% if(response.message_success){ %>
+                            <div class="alert alert-success" role="alert">
+                                <%= response.message_success %>
+                            </div>
+                            <% } %>
+                        <div class="card">
+                            <h5 class="card-header">Edit Menu</h5>
 
-                                <div class="card-body">
-                                    <form id="validationform" data-parsley-validate="" novalidate="" action="/master/edit-item-save" method="POST">
-                                        <input type="hidden" required="" name="id" class="form-control" value="<%= response.data[0].id %>">
-                                        
+                            <div class="card-body">
+                                <form id="validationform" data-parsley-validate="" novalidate="" action="/master/edit-item-save" method="POST">
+                                    <input type="hidden" required="" name="id" class="form-control" value="<%= response.data[0].id %>">
+                                    
+                                    <div class="row">
+                                    <div class="col-xl-9 col-lg-9 col-md-8 col-sm-12 col-12">
                                         <div class="form-group row">
                                             <div class="col-md-2">Name</div>
                                             <div class="col-md-6">
@@ -65,14 +69,18 @@
                                             </div> 
 
                                             <div class="col-md-2">Group</div>
-                                            <div class="col-md-2">
-                                                <select class="form-control" name="grcode" id="grcode" value="<%= response.data[0].grcode %>">         
+                                            <div class="col-md-2"> 
+                                                <select class="form-control" name="grcode" id="grcode"  >         
+                                                    <%                                                     
+                                                    if(typeof response.group.length != "undefined"){
+                                                        for(var i=0; i<response.group.length; i++) {
+                                                        selectedTxt = '';     
+                                                        if(response.data[0].grcode ==  response.group[i].id ) selectedTxt ="selected";  
+                                                    %>
+                                                        <option value="<%= response.group[i].id %>" <%= selectedTxt %> >  <%= response.group[i].name %> </option>
                                                     <% 
-                                                    if(typeof response.group.length != 'undefined'){
-                                                    for(var i=0; i < response.group.length; i++) { %>
-                                                        <option value="<%= response.group[i].id %>">  <%= response.group[i].name %> </option>
-                                                    <% }
-                                                     }
+                                                        }
+                                                    }
                                                     %> 
                                                 </select>
                                             </div>
@@ -86,9 +94,9 @@
 
                                             <div class="col-md-2">Tax Type</div>
                                             <div class="col-md-2">
-                                                <select class="form-control" name="tax_type" id="taxtype" value="<%= response.data[0].taxtype %>">
-                                                    <option value="Taxable">Taxable</option>
-                                                    <option value="Non Taxable">Non Taxable</option>
+                                                <select class="form-control" name="tax_type" id="taxtype">                                                    
+                                                    <option value="Taxable" <%= (response.data[0].tax_type == 'Taxable')? "selected":"" %> >Taxable</option>
+                                                    <option value="Non Taxable" <%= (response.data[0].tax_type == 'Non Taxable')? "selected":"" %>>Non Taxable</option>
                                                 </select>
                                             </div>
 
@@ -175,27 +183,69 @@
                                             <div class="col-md-2">
                                                 <input type="checkbox" name="special" class="form-control" value="1" value="<%= response.data[0].special %>">
                                             </div>
+                                        </div>                                        
+                                    </div>
+                                    
+
+                                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 col-12">
+                                        <table id="myTable" class=" table order-list">
+                                            <thead>
+                                                <tr>
+                                                    <td style="width:40%">Field1</td>
+                                                    <td style="width:40%">Field2</td> 
+                                                    <td style="width:20%"></td>                                                   
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <input type="text" name="name" class="form-control" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="mail" name="mail"  class="form-control"/>
+                                                    </td>                                                   
+                                                    <td><a class="deleteRow"></a></td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="5" style="text-align: left;">
+                                                        <input type="button" class="btn btn-lg btn-block " id="addrow" value="Add Row" />
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                       
+                                    </div>
+                                    </div>
+
+
+
+                                    <div class="form-group row text-right">
+                                        <div class="col col-sm-12 col-lg-12 offset-sm-1 offset-lg-0">
+                                            <button type="submit" class="btn btn-space btn-primary">Submit</button>
+                                            <button class="btn btn-space btn-secondary">Cancel</button>
                                         </div>
-
-                                        <div class="form-group row text-right">
-                                            <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
-                                                <button type="submit" class="btn btn-space btn-primary">Submit</button>
-                                                <button class="btn btn-space btn-secondary">Cancel</button>
-                                            </div>
-                                        </div> 
+                                    </div> 
 
 
-                                    </form>
-                                </div>
+                                </form>
                             </div>
+
                         </div>
-                        <!-- ============================================================== -->
-                        <!-- end valifation types -->
-                        <!-- ============================================================== -->
                     </div>
+                    <!-- ============================================================== -->
+                    <!-- end valifation types -->
+                    <!-- ============================================================== -->
+                </div>
             </div>
+   
             
+  
             <script>
             $('#form').parsley();
             </script> 
-<% include ../Common/footer  %> 
+
+<% include ../Common/footer  %>             

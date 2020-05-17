@@ -68,7 +68,7 @@ module.exports = {
     
     var sql = " INSERT INTO item_master(name,itcode,rate,f_rate,mrp,grcode,bartype,tax_type,food_type,half,altcode,peg,stock,mltype,winetype,special) "
             + " VALUES('"+post.name+"','"+post.itcode+"',"+post.rate+","+post.f_rate+","+post.mrp+",'"+post.grcode+"',"+post.bartype+",'"+post.tax_type+"','"+post.food_type+"',"+post.half+",'"+post.altcode+"',"+post.peg+","+post.stock+",'"+post.mltype+"','"+post.winetype+"',"+post.special+") ";    
-    console.log('sql' ,sql);
+    //console.log('sql' ,sql);
     dbObject.query(sql, (err, result) => {     
       controllerCallback(err, result);      
     })
@@ -82,10 +82,11 @@ module.exports = {
     if(typeof post.bartype === 'undefined' )  post.bartype = 0;
     
    var sql = " UPDATE item_master SET name='"+post.name+"',rate ="+post.rate+",f_rate="+post.f_rate+",mrp="+post.mrp+",itcode='"+post.itcode+"',grcode="+post.grcode+",bartype="+post.bartype+",tax_type='"+post.tax_type+"',food_type='"+post.food_type+"',half="+post.half+",altcode='"+post.altcode+"',peg="+post.peg+",stock="+post.stock+",mltype='"+post.mltype+"',winetype='"+post.winetype+"',special="+post.special+" WHERE id='"+post.id+"'";   
-    dbObject.query(sql, (err, result) => {     
+    
+   dbObject.query(sql, (err, result) => {     
       controllerCallback(err, result);      
     }) 
-    console.log('sql',sql);       
+    //console.log('sql',sql);       
   },
 
   delete_item: function(id, controllerCallback) {    
