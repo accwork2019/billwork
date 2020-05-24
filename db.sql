@@ -122,6 +122,12 @@ INSERT INTO `item_master` (`id`, `name` ) VALUES
 /*!40000 ALTER TABLE `wine_group_master` ENABLE KEYS */;
 
 
+DROP TABLE IF EXISTS `item_det`;
+CREATE TABLE IF NOT EXISTS `item_det` (
+  `itcode` VARCHAR(10) NOT NULL,
+  `detcode` VARCHAR(10) NOT NULL,
+  `qty` DECIMAL(8,3) NOT NULL DEFAULT 0.00
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Dumping structure for table acpanel.user_master
 DROP TABLE IF EXISTS `user_master`;
