@@ -104,16 +104,16 @@ module.exports = {
     });
   }, 
 
-
   edit_item: function(req, res) {  
-    masterModel.get_optgroup(req,function(err, result1){   
+    masterModel.get_optgroup(req,function(err, result_group){   
       masterModel.get_item(req.params.id,function(err, result){  
         var responseData = {
           requestUrl : req.originalUrl,
           data:result, 
-          group:result1    
+          group:result_group,
+          message_success:req.flash('success'),   
         }
-        console.log('result ',result);
+        //console.log('result ',result);
         res.render('Master/item_edit', {response:responseData});
       });
     });
