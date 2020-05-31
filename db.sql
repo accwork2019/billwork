@@ -129,6 +129,53 @@ CREATE TABLE IF NOT EXISTS `item_det` (
   `qty` DECIMAL(8,3) NOT NULL DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--Bill
+-- Dumping structure for table acpanel.item_master
+DROP TABLE IF EXISTS `salebill`;
+CREATE TABLE IF NOT EXISTS `salebill` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bill_no` int(8) NOT NULL ,
+  `table` varchar(70) NOT NULL,
+   `bill_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+   `discper` DECIMAL(5,2) NOT NULL ,
+   `discamt` decimal(11,2) NOT NULL ,
+   `vatper` DECIMAL(5,2) NOT NULL ,
+   `vatamt` decimal(11,2) NOT NULL ,
+   `roff` DECIMAL(5,2) NOT NULL ,
+   `totamount` decimal(11,2) NOT NULL ,
+   `netamount` decimal(11,2) NOT NULL ,
+   `settle`  int(1) NOT NULL DEFAULT 0,
+   `paymode`  int(1) NOT NULL DEFAULT 0,
+   `taxtype`  int(1) NOT NULL DEFAULT 0,
+   `disctype`  int(1) NOT NULL DEFAULT 0,
+   `remarks` varchar(70) NOT NULL,
+   `print`  varchar(1) NOT NULL DEFAULT '',
+   `tableamount` decimal(11,2) NOT NULL ,
+   `cgstper` DECIMAL(5,2) NOT NULL ,
+   `cgstamount` decimal(11,2) NOT NULL ,
+   `sgstper` DECIMAL(5,2) NOT NULL ,
+   `sgstamount` decimal(11,2) NOT NULL ,
+   `foodamt` decimal(11,2) NOT NULL ,
+   `drinksamt` decimal(11,2) NOT NULL ,
+	`custname`  VARCHAR(50) NOT NULL DEFAULT '',
+	`custgst`  VARCHAR(15) NOT NULL DEFAULT '',  
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=LATIN1;
+
+DROP TABLE IF EXISTS `saleitem`;
+CREATE TABLE IF NOT EXISTS `saleitem` (
+  `id` int(11) NOT NULL,
+  `itcode` VARCHAR(10) NOT NULL,
+  `qty` DECIMAL(6) NOT NULL DEFAULT 0,
+  `rate` decimal(11,2) NOT NULL ,
+  `mrp` decimal(11,2) NOT NULL DEFAULT 0,
+  `tax_type` enum('Taxable','Non Taxable') NOT NULL,
+  `food_type` enum('Food','Drinks','Others') NOT NULL,
+  `amount` decimal(11,2) NOT NULL DEFAULT 0,
+  `del` VARCHAR(1) NOT NULL,
+  `del_qty` DECIMAL(6) NOT NULL DEFAULT 0,
+) ENGINE=InnoDB DEFAULT CHARSET=LATIN1;
+
 -- Dumping structure for table acpanel.user_master
 DROP TABLE IF EXISTS `user_master`;
 CREATE TABLE IF NOT EXISTS `user_master` (
