@@ -85,6 +85,7 @@ app.get('/master/wine-group-delete/:id', masterController.wine_group_delete);
 //Bill
 var billController = require("../controllers/billController");
 app.get('/bill/add-bill', billController.add_bill);
+app.post('/fetchItem', billController.fetch_item)
 
 
 
