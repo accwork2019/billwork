@@ -138,8 +138,15 @@ Invoice.prototype = {
      * @returns {number}
      */
     newRow: function () {
-        jQuery(".item-row:last").after('<tr class="item-row"><td class="item-name"><div class="delete-btn"><input type="text" class="form-control item" placeholder="Item" type="text"><a class=' + $.opt.delete.substring(1) + ' href="javascript:;" title="Remove row">X</a></div></td><td><input class="form-control price" placeholder="Price" type="text"> </td><td><input class="form-control qty" placeholder="Quantity" type="text"></td><td><span class="total">0.00</span></td></tr>');
-		
+       // jQuery(".item-row:last").after('<tr class="item-row"><td class="item-name"><div class="delete-btn"><input type="text" class="form-control item" placeholder="Item" type="text"><a class=' + $.opt.delete.substring(1) + ' href="javascript:;" title="Remove row">X</a></div></td><td><input class="form-control price" placeholder="Price" type="text"> </td><td><input class="form-control qty" placeholder="Quantity" type="text"></td><td><span class="total">0.00</span></td></tr>');
+       jQuery(".item-row:last").after('<tr class="item-row">\
+                                        <td class="item-name"><input type="text" class="form-control item" placeholder="Item" type="text"></td>\
+                                        <td><input class="form-control price" readonly placeholder="Price" type="text"> </td>\
+                                        <td><input class="form-control qty" placeholder="Qty" type="text"></td>\
+                                        <td><input class="form-control description" placeholder="Description" type="text"></td>\
+                                        <td><input class="form-control remarks" placeholder="Remarks" type="text"></td>\
+                                        <td><span class="total">0.00</span><div class="delete-btn bill-item-delete-button float-lg-right"><a class=' + $.opt.delete.substring(1) + ' href="javascript:;" title="Remove row">X</a></div></td>\
+                                    </tr>');
         if (jQuery($.opt.delete).length > 0) {
             jQuery($.opt.delete).show();
         }
@@ -156,8 +163,8 @@ Invoice.prototype = {
     deleteRow: function (elem) {
         jQuery(elem).parents($.opt.parentClass).remove();
 
-        if (jQuery($.opt.delete).length < 2) {
-            jQuery($.opt.delete).hide();
+        if (jQuery($.opt.delete).length < 2) { 
+            //jQuery($.opt.delete).hide();      //hide delete button when only one row is exist
         }
 
         return 1;

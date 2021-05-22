@@ -34,58 +34,193 @@
                         <div class="card">
                             <div class="card-body">
                             
+                                <div class="row mb-1">
+                                    <div class="col">
+                                        <label class="same-label-front">Table no</label>
+                                        <input type="text" id="table_no" class="form-control table-no"> 
+                                    </div>
+                                    <div class="col">
+                                        <label class="same-label-front">Discount Type</label>
+                                        <select id="discountType" class="form-control">
+                                            <option>Select</option>
+                                            <option value="food">Food</option>
+                                            <option value="drinks">Drinks</option>
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <label class="same-label-front">Steward</label>
+                                         <input type="text" id="steward" class="form-control steward"> 
+                                    </div>
+                                    <div class="col">
+                                        <label class="same-label-front">Bill Date</label> 
+                                        <input type="text" id="billDate" class="form-control bill-date" readonly> 
+                                    </div>
+                                    <div class="col pr-0">
+                                        <label class="same-label-front">Bill No</label> 
+                                        <input type="text" id="bill_no" class="form-control bill-no"> 
+                                        <input type="hidden" id="hiddenBillId" value="">
+                                    </div>
+                                </div>
+                                
+                                <!-- search section section -->
+                                <div class="row mb-1 search-section">
+                                    <input type="hidden" id="search_item_tax_type">
+                                    <input type="hidden" id="search_item_food_type">
+                                    <div class="col">
+                                        <label class="same-label-front">Code</label>
+                                        <input type="text" id="search_item_code" class="form-control">
+                                    </div>
+                                    <div class="col">
+                                        <label class="same-label-front">Item</label>
+                                        <input type="text" id="item_search_input" class="form-control item" placeholder="Search Item">
+                                    </div>
+                                    <div class="col">
+                                        <label class="same-label-front">Description</label>
+                                        <input class="form-control description" id="search_item_description" placeholder="Description" type="text">
+                                    </div>
+                                    <div class="col">
+                                        <label class="same-label-front">Price/MRP</label>
+                                        <input class="form-control price" id="search_item_price" readonly="" placeholder="Price" type="text">
+                                    </div>
+                                    <div class="col">
+                                        <label class="same-label-front">Qty</label>
+                                        <input class="form-control qty" id="search_item_qty" placeholder="Qty" type="text">
+                                    </div>
+                                    <div class="col">
+                                        <label class="same-label-front">Amount</label>
+                                        <input class="form-control amount" id="search_item_amount" placeholder="Amount" type="text" readonly>
+                                    </div>
+                                </div>
 
+                                <div class="row">
+                                    <div class="col-11 item-table-section">
+                                        <div class="table-responsive item-list-table-section">
+                                            <table style="width:100%" id="sellItemTable" class="table-bordered">
+                                                <thead>
+                                                  <th>Code</th>
+                                                  <th>Type</th>
+                                                  <th>Qty</th>
+                                                  <th>Description</th>
+                                                  <th>Remarks</th>
+                                                  <th>Rate</th>
+                                                  <th>Amount</th>
+                                                  <th>KOT no</th>
+                                                  <th>Send</th>
+                                                </thead>
+                                                <tbody>
+                                                    <!--<tr class="sell-item-row">
+                                                        <td>Code</td>
+                                                        <td>Type</td>
+                                                        <td>Qty</td>
+                                                        <td>Description</td>
+                                                        <td>Remarks</td>
+                                                        <td>Rate</td>
+                                                        <td>Amount</td>
+                                                        <td>KOT no</td>
+                                                        <td>Send</td>
+                                                    </tr>-->
+                                                </tbody>
+                                              </table>
+                                        </div>
+                                    </div>
+                                    <div class="col-1 show-table-no-section">
+                                        <div class="booked-table-heading"><label class="same-label-front">Tables</label></div>
+                                        <div id="booked_table_section">
+                                        </div>
+                                    </div>
+                                </div>
 
-                              <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr class="item-row">
-                                            <th>Item</th>
-                                            <th>Price</th>
-                                            <th>Quantity</th>
-                                            <th>Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr id="hiderow">
-                                        <td colspan="4">
-                                            <a id="addRow" href="javascript:;" title="Add a row" class="btn btn-primary">Add a row</a>
-                                        </td>
-                                    </tr>
-                                    <!-- Here should be the item row -->
-                                    <!--<tr class="item-row">
-                                        <td><input class="form-control item" placeholder="Item" type="text"></td>
-                                        <td><input class="form-control price" placeholder="Price" type="text"></td>
-                                        <td><input class="form-control qty" placeholder="Quantity" type="text"></td>
-                                        <td><span class="total">0.00</span></td>
-                                    </tr>-->
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td class="text-right"><strong>Sub Total</strong></td>
-                                        <td><span id="subtotal">0.00</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Total Quantity: </strong><span id="totalQty" style="color: red; font-weight: bold">0</span> Units</td>
-                                        <td></td>
-                                        <td class="text-right"><strong>Discount</strong></td>
-                                        <td><input class="form-control" id="discount" value="0" type="text"></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td class="text-right"><strong>Shipping</strong></td>
-                                        <td><input class="form-control" id="shipping" value="0" type="text"></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td class="text-right"><strong>Grand Total</strong></td>
-                                        <td><span id="grandTotal">0</span></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                                <!--<div class="row">
+                                    <div class="col-11 item-table-section">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr class="item-row">
+                                                        <th>Item</th>
+                                                        <th class="width-100">Price</th>
+                                                        <th class="width-50">Qty</th>
+                                                        <th>Description</th>
+                                                        <th>Remarks</th>
+                                                        <th class="width-150">Total</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr id="hiderow">
+                                                    <td colspan="6">
+                                                        <a id="addRow" href="javascript:;" title="Add a row" class="btn btn-primary float-lg-right"><i class="fas fa-plus add-bill-row"></i></a>
+                                                    </td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td class="text-right"><strong>Sub Total</strong></td>
+                                                    <td><span id="subtotal">0.00</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>Total Quantity: </strong><span id="totalQty" style="color: red; font-weight: bold">0</span> Units</td>
+                                                    <td></td>
+                                                    <td class="text-right"><strong>Discount</strong></td>
+                                                    <td><input class="form-control" id="discount" value="0" type="text"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td class="text-right"><strong>Shipping</strong></td>
+                                                    <td><input class="form-control" id="shipping" value="0" type="text"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td class="text-right"><strong>Grand Total</strong></td>
+                                                    <td><span id="grandTotal">0</span></td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="col-1 show-table-no-section">
+                                        <div class="booked-table-heading"><label class="same-label-front">Tables</label></div>
+                                        <div id="booked_table_section">
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <input class="bill-button" type="button" value="Add">
+                                                <input class="bill-button" type="button" value="Bill Print">
+                                                <input class="bill-button" type="button" value="Settle Data">
+                                                <input class="bill-button" type="button" value="Add Service Tips">
+                                                <input class="bill-button" type="button" value="Seperate Prints">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <input class="bill-button" type="button" value="Delete">
+                                                <input class="bill-button" type="button" value="Cancel Bill">
+                                                <input class="bill-button" type="button" value="Change Pay Status">
+                                                <input class="bill-button" type="button" value="Add Disc">
+                                                <input class="bill-button" type="button" id="kotButton" value="KOT">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <input class="bill-button" type="button" value="Payment Status">
+                                                <input class="bill-button" type="button" value="Clear">
+                                                <input class="bill-button" type="button" value="Transfer Table">
+                                                <input class="bill-button" type="button" value="Add GST">
+                                                <input class="bill-button" type="button" value="KOT Reprint">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-6">
+
+                                    </div>
+                                </div>
+                                
 
 
 

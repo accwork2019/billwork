@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 04, 2021 at 06:10 PM
--- Server version: 10.2.37-MariaDB
--- PHP Version: 7.3.27
+-- Generation Time: May 22, 2021 at 05:12 PM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.4.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -121,8 +122,10 @@ CREATE TABLE `item_master` (
 --
 
 INSERT INTO `item_master` (`id`, `name`, `status`, `rate`, `f_rate`, `mrp`, `itcode`, `grcode`, `bartype`, `tax_type`, `food_type`, `half`, `altcode`, `peg`, `stock`, `mltype`, `winetype`, `special`) VALUES
-(1, 'Royal Stag', 'Active', '0.00', '0.00', '0.00', '', 0, 0, 'Taxable', 'Food', 0, '', '0.00', 0, '', '', 0),
-(3, 'Teachers', 'Active', '0.00', '0.00', '0.00', '', 0, 0, 'Taxable', 'Food', 0, '', '0.00', 0, '', '', 0);
+(1, 'Royal Stag', 'Active', '500.00', '0.00', '0.00', '', 0, 0, 'Taxable', 'Food', 0, '', '0.00', 0, '', '', 0),
+(3, 'Teachers', 'Active', '970.00', '0.00', '0.00', '', 0, 0, 'Taxable', 'Food', 0, '', '0.00', 0, '', '', 0),
+(4, 'Food 1', 'Active', '200.00', '0.00', '0.00', '', 0, 0, 'Taxable', 'Food', 0, '', '0.00', 0, '', '', 0),
+(5, 'Food 2', 'Active', '100.00', '0.00', '0.00', '', 0, 0, 'Taxable', 'Food', 0, '', '0.00', 0, '', '', 0);
 
 -- --------------------------------------------------------
 
@@ -159,6 +162,13 @@ CREATE TABLE `salebill` (
   `custgst` varchar(15) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `salebill`
+--
+
+INSERT INTO `salebill` (`id`, `bill_no`, `table`, `bill_date`, `discper`, `discamt`, `vatper`, `vatamt`, `roff`, `totamount`, `netamount`, `settle`, `paymode`, `taxtype`, `disctype`, `remarks`, `print`, `tableamount`, `cgstper`, `cgstamount`, `sgstper`, `sgstamount`, `foodamt`, `drinksamt`, `custname`, `custgst`) VALUES
+(28, 0, '100', '2021-05-22 14:30:31', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', 0, 0, 0, 0, '', '', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00', '', '');
+
 -- --------------------------------------------------------
 
 --
@@ -167,6 +177,7 @@ CREATE TABLE `salebill` (
 
 CREATE TABLE `saleitem` (
   `id` int(11) NOT NULL,
+  `bill_id` bigint(20) NOT NULL,
   `itcode` varchar(10) NOT NULL,
   `qty` decimal(6,0) NOT NULL DEFAULT 0,
   `rate` decimal(11,2) NOT NULL,
@@ -177,6 +188,13 @@ CREATE TABLE `saleitem` (
   `del` varchar(1) NOT NULL,
   `del_qty` decimal(6,0) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `saleitem`
+--
+
+INSERT INTO `saleitem` (`id`, `bill_id`, `itcode`, `qty`, `rate`, `mrp`, `tax_type`, `food_type`, `amount`, `del`, `del_qty`) VALUES
+(6, 28, '4', '4', '0.00', '200.00', 'Taxable', 'Food', '800.00', '', '0');
 
 -- --------------------------------------------------------
 
@@ -285,13 +303,19 @@ ALTER TABLE `group_master`
 -- AUTO_INCREMENT for table `item_master`
 --
 ALTER TABLE `item_master`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `salebill`
 --
 ALTER TABLE `salebill`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+
+--
+-- AUTO_INCREMENT for table `saleitem`
+--
+ALTER TABLE `saleitem`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `user_master`
