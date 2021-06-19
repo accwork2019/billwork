@@ -2,6 +2,8 @@ var express = require('express')
 var bodyParser = require('body-parser');
 global.dateFormat = require('dateformat');
 
+
+
 var app = express();
 
 // init sessions 
@@ -86,9 +88,13 @@ app.get('/master/wine-group-delete/:id', masterController.wine_group_delete);
 var billController = require("../controllers/billController");
 app.get('/bill/add-bill', billController.add_bill);
 app.post('/fetchItem', billController.fetch_item);
-app.post('/submitKot', billController.submit_kot);
+app.post('/fetch-item-by-code', billController.fetch_item_by_code);
+app.post('/fetch-item-by-table-no', billController.fetch_item_by_table_no);
+app.post('/submit-kot', billController.submit_kot);
 app.post('/entry_sale_bill', billController.entry_sale_bill);
-app.post('/entry_sale_item', billController.entry_sale_item)
+app.post('/entry_sale_item', billController.entry_sale_item);
+app.post('/calculate_bill', billController.calculate_bill)
+
 
 
 

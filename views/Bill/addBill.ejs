@@ -14,7 +14,7 @@
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div class="page-header row">
                             <div class="col-md-6">
-                                <h4 class="pageheader-title">Customer</h4>
+                                <h4 class="pageheader-title">Bill</h4>
                             </div>
                             <div class="col-md-6 text-md-right">
                               <a href="/master/add-customer"> <i class="fas fa-plus-square"></i> Add New </a>
@@ -43,13 +43,19 @@
                                         <label class="same-label-front">Discount Type</label>
                                         <select id="discountType" class="form-control">
                                             <option>Select</option>
-                                            <option value="food">Food</option>
-                                            <option value="drinks">Drinks</option>
+                                            <option value="f">Food</option>
+                                            <option value="d">Drinks</option>
                                         </select>
                                     </div>
                                     <div class="col">
                                         <label class="same-label-front">Steward</label>
-                                         <input type="text" id="steward" class="form-control steward"> 
+                                         <!-- <input type="text" id="steward" class="form-control steward">  -->
+                                         <select id="steward" class="form-control">
+                                            <% for(var i=0; i < stewardData.length; i++) { %>
+                                                <option value='<%= stewardData[i].id %>'><%= stewardData[i].name %></option>
+                                             <% } %>
+
+                                        </select>
                                     </div>
                                     <div class="col">
                                         <label class="same-label-front">Bill Date</label> 
@@ -66,29 +72,33 @@
                                 <div class="row mb-1 search-section">
                                     <input type="hidden" id="search_item_tax_type">
                                     <input type="hidden" id="search_item_food_type">
-                                    <div class="col">
+                                    <div class="col-1">
                                         <label class="same-label-front">Code</label>
                                         <input type="text" id="search_item_code" class="form-control">
                                     </div>
-                                    <div class="col">
-                                        <label class="same-label-front">Item</label>
-                                        <input type="text" id="item_search_input" class="form-control item" placeholder="Search Item">
-                                    </div>
-                                    <div class="col">
+                                    <div class="col-4 p-0">
                                         <label class="same-label-front">Description</label>
-                                        <input class="form-control description" id="search_item_description" placeholder="Description" type="text">
+                                        <input type="text" id="search_item_description" class="form-control item" placeholder="Search Item">
                                     </div>
-                                    <div class="col">
-                                        <label class="same-label-front">Price/MRP</label>
-                                        <input class="form-control price" id="search_item_price" readonly="" placeholder="Price" type="text">
-                                    </div>
-                                    <div class="col">
+                                    <div class="col-2 pr-0">
+                                        <label class="same-label-front">Note</label>
+                                        <input class="form-control note" id="search_item_note" placeholder="" type="text">
+                                    </div> 
+                                    <div class="col-1">
                                         <label class="same-label-front">Qty</label>
                                         <input class="form-control qty" id="search_item_qty" placeholder="Qty" type="text">
+                                    </div>
+                                    <div class="col p-0">
+                                        <label class="same-label-front">Rate</label>
+                                        <input class="form-control price" id="search_item_price" readonly="" placeholder="Price" type="text">
                                     </div>
                                     <div class="col">
                                         <label class="same-label-front">Amount</label>
                                         <input class="form-control amount" id="search_item_amount" placeholder="Amount" type="text" readonly>
+                                    </div>
+                                    <div class="col p-0">
+                                        <label class="same-label-front">M.R.P</label>
+                                        <input class="form-control" id="search_item_mrp" placeholder="" type="text" readonly>
                                     </div>
                                 </div>
 
@@ -97,15 +107,16 @@
                                         <div class="table-responsive item-list-table-section">
                                             <table style="width:100%" id="sellItemTable" class="table-bordered">
                                                 <thead>
-                                                  <th>Code</th>
-                                                  <th>Type</th>
-                                                  <th>Qty</th>
-                                                  <th>Description</th>
-                                                  <th>Remarks</th>
-                                                  <th>Rate</th>
-                                                  <th>Amount</th>
-                                                  <th>KOT no</th>
-                                                  <th>Send</th>
+                                                  <th class="text-center width-5perc">Code</th>
+                                                  <th class="text-center width-7perc">Type</th>
+                                                  <th class="text-center width-4perc">Qty</th>
+                                                  <th class="text-center">Description</th>
+                                                  <th class="text-center width-12perc">Remarks</th>
+                                                  <th class="text-center width-5perc">Rate</th>
+                                                  <th class="text-center width-7perc">Amount</th>
+                                                  <th class="text-center width-7perc">KOT NO</th>
+                                                  <th class="text-center width-4perc">Send</th>
+                                                  <th class="text-center width-5perc">Action</th>
                                                 </thead>
                                                 <tbody>
                                                     <!--<tr class="sell-item-row">
@@ -126,6 +137,9 @@
                                     <div class="col-1 show-table-no-section">
                                         <div class="booked-table-heading"><label class="same-label-front">Tables</label></div>
                                         <div id="booked_table_section">
+                                            <% for(var i=0; i < bookedTableData.length; i++) { %>
+                                                <a class="booked-table" data-booked-table-bill-id='<%= bookedTableData[i].id %>' data-table-no='<%= bookedTableData[i].table %>' href="javascript:void(0)"><%= bookedTableData[i].table%></a>
+                                             <% } %>
                                         </div>
                                     </div>
                                 </div>
@@ -186,38 +200,96 @@
                                     </div>
                                 </div> -->
                                 <div class="row">
-                                    <div class="col-6">
+                                    <div class="col-5">
                                         <div class="row">
                                             <div class="col-12">
-                                                <input class="bill-button" type="button" value="Add">
-                                                <input class="bill-button" type="button" value="Bill Print">
-                                                <input class="bill-button" type="button" value="Settle Data">
-                                                <input class="bill-button" type="button" value="Add Service Tips">
-                                                <input class="bill-button" type="button" value="Seperate Prints">
+                                                <input class="bill-button btn-group" type="button" value="Add">
+                                                <input class="bill-button btn-group" type="button" value="Bill Print">
+                                                <input class="bill-button btn-group" type="button" value="Settle Data">
+                                                <input class="bill-button btn-group" type="button" id="add_service_tips" data-add-servicetips="false" value="Add Service Tips">
+                                                <input class="bill-button btn-group" type="button" value="Seperate Prints">
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-12">
-                                                <input class="bill-button" type="button" value="Delete">
-                                                <input class="bill-button" type="button" value="Cancel Bill">
-                                                <input class="bill-button" type="button" value="Change Pay Status">
-                                                <input class="bill-button" type="button" value="Add Disc">
-                                                <input class="bill-button" type="button" id="kotButton" value="KOT">
+                                                <input class="bill-button btn-group" type="button" value="Delete">
+                                                <input class="bill-button btn-group" type="button" value="Cancel Bill">
+                                                <input class="bill-button btn-group" type="button" value="Change Pay Status">
+                                                <input class="bill-button btn-group" type="button" value="Add Disc">
+                                                <input class="bill-button btn-group" type="button" id="kotButton" value="KOT">
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-12">
-                                                <input class="bill-button" type="button" value="Payment Status">
-                                                <input class="bill-button" type="button" value="Clear">
-                                                <input class="bill-button" type="button" value="Transfer Table">
-                                                <input class="bill-button" type="button" value="Add GST">
-                                                <input class="bill-button" type="button" value="KOT Reprint">
+                                                <input class="bill-button btn-group" type="button" value="Payment Status">
+                                                <input class="bill-button btn-group" type="button" value="Clear">
+                                                <input class="bill-button btn-group" type="button" value="Transfer Table">
+                                                <input class="bill-button btn-group" type="button" value="Add GST">
+                                                <input class="bill-button btn-group" type="button" value="KOT Reprint">
                                             </div>
                                         </div>
 
                                     </div>
-                                    <div class="col-6">
-
+                                    <div class="col-7">
+                                        <div class="row">
+                                            <div class="col-4 p-0">
+                                                <div class="d-flex pb-1">
+                                                    <label>Sub-total</label>
+                                                    <input type="text" class="width-100 position-absolute right-0" id="sub_total" value="0" readonly/>
+                                                </div>
+                                                <div class="d-flex pb-1">
+                                                    <label>Taxable Amt</label>
+                                                    <input type="text" class="width-100 position-absolute right-0" id="taxable_amt" value="0" readonly/>
+                                                </div>
+                                                <div class="d-flex pb-1">
+                                                    <label>CGST% & Amt</label>
+                                                    <input type="text" class="width-50 position-absolute right-50" id="cgst" value="0" readonly/>
+                                                    <input type="text" class="width-50 position-absolute right-0" id="agst_amt" value="0" readonly/>
+                                                </div>
+                                                <div class="d-flex pb-1">
+                                                    <label>Service Tips</label>
+                                                    <input type="text" class="width-50 position-absolute right-50" id="service_amt" value="0" readonly/>
+                                                    <input type="text" class="width-50 position-absolute right-0" id="tips_amt" value="0" readonly/>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="d-flex pb-1">
+                                                    <label>Disc.%</label>
+                                                    <input type="text" class="width-100 position-absolute right-0" id="discount_percentage_amt" value="0" />
+                                                </div>
+                                                <div class="d-flex pb-1">
+                                                    <label>GST%</label>
+                                                    <input type="text" class="width-100 position-absolute right-0" id="gst_percentage_amt" value="0" readonly/>
+                                                </div>
+                                                <div class="d-flex pb-1">
+                                                    <label>SGST% & Amt</label>
+                                                    <input type="text" class="width-50 position-absolute right-50" id="sgst" value="0" readonly/>
+                                                    <input type="text" class="width-50 position-absolute right-0" id="sgst_amt" value="0" readonly/>
+                                                </div>
+                                                <div class="d-flex pb-1">
+                                                    <label>Tot Qty</label>
+                                                    <input type="text" class="width-100 position-absolute right-0" id="total_qty" value="0" readonly/>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="d-flex pb-1">
+                                                    <label>Disc.Amt</label>
+                                                    <input type="text" class="width-100 position-absolute right-0" id="discount_amt" value="0" readonly/>
+                                                </div>
+                                                <div class="d-flex pb-1">
+                                                    <label>GST.Amt</label>
+                                                    <input type="text" class="width-100 position-absolute right-0" id="gst_amt" value="0" readonly/>
+                                                </div>
+                                                <div class="d-flex pb-1">
+                                                    <label>Drinks Amt</label>
+                                                    <input type="text" class="width-100 position-absolute right-0" id="drinks_amt" value="0" readonly/>
+                                                </div>
+                                                <div class="d-flex pb-1">
+                                                    <label>Net Amt</label>
+                                                    <input type="text" class="width-100 position-absolute right-0" id="net_amt" value="0" readonly/>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 

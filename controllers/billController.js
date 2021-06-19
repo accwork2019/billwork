@@ -15,7 +15,23 @@ module.exports = {
     var responseData = {
       requestUrl : req.originalUrl
     }
-    res.render('Bill/addBill', {response:responseData});
+    var stewardData = '';
+    var bookedTableData = '';
+    billModel.fetch_steward_data(function(err, result){
+			//res.send(result);
+        if (result) {
+          stewardData = result;
+          billModel.fetch_booked_table_data(function(err, result1){
+            //res.send(result);
+              if (result1) {
+                bookedTableData = result1;
+              }
+              res.render('Bill/addBill', {response:responseData, stewardData:stewardData, bookedTableData:bookedTableData});
+          });
+        }
+        //res.render('Bill/addBill', {response:responseData, stewardData:stewardData});
+		});
+    
   }, 
   fetch_item: function(req, res) {
     var search_key = req.body.search_text;
@@ -31,18 +47,51 @@ module.exports = {
 			
 		});
   }, 
-  submit_kot: function(req, res) {
-    var item_id = req.body.item_id;
-    billModel.add_kot(item_id, function(err, result){
+  fetch_item_by_code: function(req, res) {
+    var search_item_code = req.body.search_item_code;
+    billModel.fetch_item_by_code(search_item_code, function(err, result){
 			//res.send(result);
 			if (result) {
         if (result) {
           resultArray = result;
           var resultJson = JSON.stringify(resultArray);
 				      res.send(resultJson);
-              //res.send(1);
         }
 			}
+			
+		});
+  }, 
+  fetch_item_by_table_no: function(req, res) {
+    var search_table_no = req.body.search_table_no;
+    billModel.fetch_item_by_table_no(search_table_no, function(err, result, result1){
+			//res.send(result);
+			if (result) {
+        if (result) {
+          var responseData = {
+            sell_item : result1,
+            waiter: result
+          }
+          
+          var resultJson = JSON.stringify(responseData);
+				      res.send(resultJson);
+        }
+			}
+			
+		});
+  }, 
+  submit_kot: function(req, res) {
+    var billId = req.body.bill_id;
+    billModel.add_kot(billId, function(err, result){
+			//res.send(result);
+			//if (result) {
+        if (result) {
+          resultArray = result;
+          var resultJson = JSON.stringify(resultArray);
+          console.log('controller', resultJson)
+				      res.send(resultJson);
+              //res.send(1);
+        }
+			//}
 			
 		});
   }, 
@@ -74,8 +123,10 @@ module.exports = {
     var orderedItemAmount = req.body.ordered_item_amount;
     var del = req.body.del;
     var delQty = req.body.delQty;
+    var ordered_item_description = req.body.ordered_item_description;
+    var order_item_note = req.body.order_item_remarks;
 
-    billModel.add_sale_item(billId,orderedItemCode,orderedItemQty,orderedItemRate,orderedItemMrp,orderItemTaxType,orderedItemFoodType,orderedItemAmount,del,delQty, function(err, result){
+    billModel.add_sale_item(billId,orderedItemCode,orderedItemQty,orderedItemRate,orderedItemMrp,orderItemTaxType,orderedItemFoodType,orderedItemAmount,del,delQty,ordered_item_description,order_item_note, function(err, result){
 			//res.send(result);
 			if (result) {
         if (result) {
@@ -86,6 +137,167 @@ module.exports = {
 			}
 			
 		});
+  }, 
+  calculate_bill: function(req, res) {
+    var table_no = req.body.table_no;
+    var discount_percentage = req.body.discount_percentage;
+
+    var sale_bill_id = ''; 
+    var discount_type = '';
+    var sub_total = 0;
+    var discount_amt = 0;
+    var taxable_amt = 0;
+    var total_item_qty = 0;
+    var drinks_amt = 0;
+    var sgst_amt = 0;
+    var cgst_amt = 0;
+    var net_amt = 0;
+    var setvice_tips = 0;
+    var gst_amt = 0;
+
+    
+    var gst_percentage = 0;
+    var cgst_percentage = 0;
+    var sgst_percentage = 0;
+    var service_tips_percentage = 0;
+    
+
+    billModel.get_company_details(function(err, result){
+      if (result) {
+        //discount_percentage = result[0].discount; 
+        gst_percentage = result[0].gst;
+        cgst_percentage = result[0].cgst;
+        sgst_percentage = result[0].sgst;
+        service_tips_percentage = result[0].service_tips;
+      }
+    })
+
+    billModel.get_bill_details_from_sailbill(table_no, function(err, billDetailsResult){
+      if (billDetailsResult) {
+        sale_bill_id = billDetailsResult[0].id;
+        discount_type = billDetailsResult[0].disctype;
+
+        billModel.get_sub_total(sale_bill_id, function(err, subTotalResult){
+          if (subTotalResult) {
+            sub_total = parseFloat(subTotalResult[0]["sum(amount)"]);
+            
+            
+            billModel.get_discount_amt(sale_bill_id,discount_type, function(err, discountAmtResult){
+              if (discountAmtResult) {
+                var resultAmt = discountAmtResult[0]["sum(amount)"];
+                    discount_amt = (resultAmt*discount_percentage)/100;
+
+
+                    billModel.get_taxable_amount(sale_bill_id, function(err, totalTaxAbleAmt){    //Get Taxable Amount
+                      if (totalTaxAbleAmt) {
+                        taxable_amt = parseFloat(totalTaxAbleAmt[0]["sum(amount)"]);
+
+                        billModel.get_total_item(sale_bill_id, function(err, totalItem){    //Get total item
+                          if (totalItem) {
+                            total_item_qty = parseFloat(totalItem[0]["sum(qty)"]);
+
+                            billModel.get_sub_total_drinks(sale_bill_id, function(err, subTotalDrinkdAmt){  //Get Drinks Amount
+                              if (subTotalDrinkdAmt) {
+                                drinks_amt = parseFloat(subTotalDrinkdAmt[0]["sum(amount)"]);
+                              }
+                              //----------------------------
+                              if(discount_type == 'f'){   //Calculate SGST AMOUNT
+                                var temp_sgst_amt = (taxable_amt - discount_amt);
+                                sgst_amt = (temp_sgst_amt*sgst_percentage)/100;
+                              }else if(discount_type == 'all'){
+                                var temp_sgst_amt = (taxable_amt - (taxable_amt*discount_percentage)/100);
+                                sgst_amt = (temp_sgst_amt*sgst_percentage)/100;
+                              }else{
+                                sgst_amt = (taxable_amt*sgst_percentage)/100;
+                              }
+
+                              if(discount_type == 'f'){   //Calculate CGST AMOUNT
+                                var temp_sgst_amt = (taxable_amt - discount_amt);
+                                cgst_amt = (temp_sgst_amt*cgst_percentage)/100;
+                              }else if(discount_type == 'all'){
+                                var temp_sgst_amt = (taxable_amt - (taxable_amt*discount_percentage)/100);
+                                cgst_amt = (temp_sgst_amt*cgst_percentage)/100;
+                              }else{
+                                cgst_amt = (taxable_amt*cgst_percentage)/100;
+                              }
+
+                              //calculate service tips amount
+                              var temp_setvice_tips = sub_total-discount_amt+sgst_amt+cgst_amt;
+                              setvice_tips = (temp_setvice_tips*service_tips_percentage)/100;
+
+                              gst_amt = cgst_amt+sgst_amt;
+
+                              //calculate net amount
+                              net_amt = sub_total-discount_amt+cgst_amt+sgst_amt+setvice_tips;
+
+                              var responseData = {
+                                sub_total : sub_total,
+                                discount_percentage: discount_percentage,
+                                discount_amt:discount_amt,
+                                gst_percentage:gst_percentage,
+                                cgst_percentage:cgst_percentage,
+                                sgst_percentage:sgst_percentage,
+                                taxable_amt:taxable_amt,
+                                total_item_qty:total_item_qty,
+                                drinks_amt:drinks_amt,
+                                sgst_amt:sgst_amt,
+                                cgst_amt:cgst_amt,
+                                gst_amt:gst_amt,
+                                net_amt:net_amt,
+                                service_tips_percentage:service_tips_percentage,
+                                setvice_tips:setvice_tips
+
+                              }
+
+                              var resultJson = JSON.stringify(responseData);
+                              res.send(resultJson);
+                              //---------------------------
+
+                            })
+                          }
+                          
+
+                        })
+
+                      }
+                    });
+              }
+            });
+          }
+        })
+        
+      }
+    })
+
+
+   /* billModel.get_sub_total(sale_bill_id, function(err, subTotalResult){
+      if (subTotalResult) {
+        sub_total = parseFloat(subTotalResult[0]["sum(amount)"]);
+        
+      }
+    })*/
+
+
+    /*billModel.get_sub_total(table_no, function(err, result){
+			//res.send(result);
+			if (result) {
+        if (result) {
+          resultArray = result;
+         // var resultJson = JSON.stringify(resultArray);
+            var discount_percentage = 2;
+            var sum_amt = parseFloat(result[0]["sum(amount)"]);
+            var disc_amt = (sum_amt*discount_percentage)/100;
+            var responseData = {
+              disc_amt : disc_amt,
+              discount_percentage: discount_percentage,
+            }
+
+            var resultJson = JSON.stringify(responseData);
+				    res.send(resultJson);
+        }
+			}
+			
+		});*/
   }, 
 
    
