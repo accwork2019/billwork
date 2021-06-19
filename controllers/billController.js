@@ -141,6 +141,13 @@ module.exports = {
   calculate_bill: function(req, res) {
     var table_no = req.body.table_no;
     var discount_percentage = req.body.discount_percentage;
+    var add_service_tips_flag = req.body.add_service_tips;
+    var add_discount_flag = req.body.add_discount;
+    var add_gst_flag = req.body.add_gst;
+
+    if(add_discount_flag == 'false'){
+      discount_percentage = 0;
+    }
 
     var sale_bill_id = ''; 
     var discount_type = '';
@@ -165,10 +172,19 @@ module.exports = {
     billModel.get_company_details(function(err, result){
       if (result) {
         //discount_percentage = result[0].discount; 
-        gst_percentage = result[0].gst;
-        cgst_percentage = result[0].cgst;
-        sgst_percentage = result[0].sgst;
-        service_tips_percentage = result[0].service_tips;
+
+        if(add_gst_flag == 'true'){
+          gst_percentage = result[0].gst;
+          cgst_percentage = result[0].cgst;
+          sgst_percentage = result[0].sgst;
+        }
+
+        if(add_service_tips_flag == 'true'){
+          service_tips_percentage = result[0].service_tips;
+        }else{
+          service_tips_percentage = 0
+        }
+        
       }
     })
 
