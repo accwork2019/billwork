@@ -137,17 +137,49 @@ module.exports = {
 			}
 			
 		});
+  },
+  apply_servicetax_discount_gst: function(req, res) {
+    var table_no = req.body.table_no;
+    var add_service_tips_flag = req.body.add_service_tips;
+    var add_discount_flag = req.body.add_discount;
+    var discount_percentage = req.body.discount_percentage;
+    var add_gst_flag = req.body.add_gst;
+    
+
+    billModel.apply_servicetax_discount_gst(table_no,add_service_tips_flag,add_discount_flag,discount_percentage,add_gst_flag, function(err, result){
+			//res.send(result);
+			if (result) {
+        if (result) {
+          resultArray = result;
+          var resultJson = JSON.stringify(resultArray);
+				      res.send(resultJson);
+        }
+			}
+			
+		});
+  }, 
+  update_discount_percentage: function(req, res) {
+    var bill_id = req.body.bill_id;
+    var discount_percentage = req.body.discount_percentage;
+
+    billModel.update_discount_percentage(bill_id,discount_percentage, function(err, result){
+			//res.send(result);
+			if (result) {
+        if (result) {
+          resultArray = result;
+          var resultJson = JSON.stringify(resultArray);
+				      res.send('1');
+        }else{
+          res.send('0');
+        }
+			}else{
+        res.send('0');
+      }
+			
+		});
   }, 
   calculate_bill: function(req, res) {
     var table_no = req.body.table_no;
-    var discount_percentage = req.body.discount_percentage;
-    var add_service_tips_flag = req.body.add_service_tips;
-    var add_discount_flag = req.body.add_discount;
-    var add_gst_flag = req.body.add_gst;
-
-    if(add_discount_flag == 'false'){
-      discount_percentage = 0;
-    }
 
     var sale_bill_id = ''; 
     var discount_type = '';
@@ -167,24 +199,16 @@ module.exports = {
     var cgst_percentage = 0;
     var sgst_percentage = 0;
     var service_tips_percentage = 0;
+    var discount_percentage = 0;
     
 
     billModel.get_company_details(function(err, result){
       if (result) {
         //discount_percentage = result[0].discount; 
-
-        if(add_gst_flag == 'true'){
-          gst_percentage = result[0].gst;
-          cgst_percentage = result[0].cgst;
-          sgst_percentage = result[0].sgst;
-        }
-
-        if(add_service_tips_flag == 'true'){
-          service_tips_percentage = result[0].service_tips;
-        }else{
-          service_tips_percentage = 0
-        }
-        
+        gst_percentage = result[0].gst;
+        cgst_percentage = result[0].cgst;
+        sgst_percentage = result[0].sgst;
+        service_tips_percentage = result[0].service_tips;
       }
     })
 
@@ -192,6 +216,25 @@ module.exports = {
       if (billDetailsResult) {
         sale_bill_id = billDetailsResult[0].id;
         discount_type = billDetailsResult[0].disctype;
+        
+        var add_service_tips_flag = billDetailsResult[0].apply_s_tax;
+        var add_discount_flag = billDetailsResult[0].apply_discount;
+        var add_gst_flag = billDetailsResult[0].apply_gst;
+        discount_percentage = billDetailsResult[0].discper;
+
+        if(add_service_tips_flag == 'false'){
+          service_tips_percentage = 0
+        }
+
+        if(add_discount_flag == 'false'){
+          discount_percentage = 0
+        }
+
+        if(add_gst_flag == 'false'){
+          gst_percentage = 0
+          cgst_percentage = 0
+          sgst_percentage = 0
+        }
 
         billModel.get_sub_total(sale_bill_id, function(err, subTotalResult){
           if (subTotalResult) {

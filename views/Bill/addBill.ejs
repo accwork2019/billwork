@@ -206,7 +206,7 @@
                                                 <input class="bill-button btn-group" type="button" value="Add">
                                                 <input class="bill-button btn-group" type="button" value="Bill Print">
                                                 <input class="bill-button btn-group" type="button" value="Settle Data">
-                                                <input class="bill-button btn-group" type="button" id="add_service_tips" data-add-servicetips="false" value="Add Service Tips">
+                                                <input class="bill-button btn-group" type="button" id="add_service_tips" data-add-servicetips="false" value="Add Service Tips" disabled>
                                                 <input class="bill-button btn-group" type="button" value="Seperate Prints">
                                             </div>
                                         </div>
@@ -215,7 +215,7 @@
                                                 <input class="bill-button btn-group" type="button" value="Delete">
                                                 <input class="bill-button btn-group" type="button" value="Cancel Bill">
                                                 <input class="bill-button btn-group" type="button" value="Change Pay Status">
-                                                <input class="bill-button btn-group" type="button" id="add_discount" data-add-discount="false" value="Add Disc">
+                                                <input class="bill-button btn-group" type="button" id="add_discount" data-add-discount="false" value="Add Disc" disabled>
                                                 <input class="bill-button btn-group" type="button" id="kotButton" value="KOT">
                                             </div>
                                         </div>
@@ -224,7 +224,7 @@
                                                 <input class="bill-button btn-group" type="button" value="Payment Status">
                                                 <input class="bill-button btn-group" type="button" value="Clear">
                                                 <input class="bill-button btn-group" type="button" value="Transfer Table">
-                                                <input class="bill-button btn-group" type="button" id="add_gst" data-add-gst="false" value="Add GST">
+                                                <input class="bill-button btn-group" type="button" id="add_gst" data-add-gst="false" value="Add GST" disabled>
                                                 <input class="bill-button btn-group" type="button" value="KOT Reprint">
                                             </div>
                                         </div>
@@ -235,58 +235,58 @@
                                             <div class="col-4 p-0">
                                                 <div class="d-flex pb-1">
                                                     <label>Sub-total</label>
-                                                    <input type="text" class="width-100 position-absolute right-0" id="sub_total" value="0" readonly/>
+                                                    <input type="text" class="width-100 position-absolute right-0 text-right" id="sub_total" value="0" readonly/>
                                                 </div>
                                                 <div class="d-flex pb-1">
                                                     <label>Taxable Amt</label>
-                                                    <input type="text" class="width-100 position-absolute right-0" id="taxable_amt" value="0" readonly/>
+                                                    <input type="text" class="width-100 position-absolute right-0 text-right" id="taxable_amt" value="0" readonly/>
                                                 </div>
                                                 <div class="d-flex pb-1">
                                                     <label>CGST% & Amt</label>
-                                                    <input type="text" class="width-50 position-absolute right-50" id="cgst" value="0" readonly/>
-                                                    <input type="text" class="width-50 position-absolute right-0" id="agst_amt" value="0" readonly/>
+                                                    <input type="text" class="width-50 position-absolute right-50 text-right" id="cgst" value="0" readonly/>
+                                                    <input type="text" class="width-50 position-absolute right-0 text-right" id="agst_amt" value="0" readonly/>
                                                 </div>
                                                 <div class="d-flex pb-1">
                                                     <label>Service Tips</label>
-                                                    <input type="text" class="width-50 position-absolute right-50" id="service_amt" value="0" readonly/>
-                                                    <input type="text" class="width-50 position-absolute right-0" id="tips_amt" value="0" readonly/>
+                                                    <input type="text" class="width-50 position-absolute right-50 text-right" id="service_amt" value="0" readonly/>
+                                                    <input type="text" class="width-50 position-absolute right-0 text-right" id="tips_amt" value="0" readonly/>
                                                 </div>
                                             </div>
                                             <div class="col-4">
                                                 <div class="d-flex pb-1">
                                                     <label>Disc.%</label>
-                                                    <input type="text" class="width-100 position-absolute right-0" id="discount_percentage_amt" value="0" />
+                                                    <input type="text" class="width-100 position-absolute right-0 text-right" id="discount_percentage_amt" value="0" />
                                                 </div>
                                                 <div class="d-flex pb-1">
                                                     <label>GST%</label>
-                                                    <input type="text" class="width-100 position-absolute right-0" id="gst_percentage_amt" value="0" readonly/>
+                                                    <input type="text" class="width-100 position-absolute right-0 text-right" id="gst_percentage_amt" value="0" readonly/>
                                                 </div>
                                                 <div class="d-flex pb-1">
                                                     <label>SGST% & Amt</label>
-                                                    <input type="text" class="width-50 position-absolute right-50" id="sgst" value="0" readonly/>
-                                                    <input type="text" class="width-50 position-absolute right-0" id="sgst_amt" value="0" readonly/>
+                                                    <input type="text" class="width-50 position-absolute right-50 text-right" id="sgst" value="0" readonly/>
+                                                    <input type="text" class="width-50 position-absolute right-0 text-right" id="sgst_amt" value="0" readonly/>
                                                 </div>
                                                 <div class="d-flex pb-1">
                                                     <label>Tot Qty</label>
-                                                    <input type="text" class="width-100 position-absolute right-0" id="total_qty" value="0" readonly/>
+                                                    <input type="text" class="width-100 position-absolute right-0 text-right" id="total_qty" value="0" readonly/>
                                                 </div>
                                             </div>
                                             <div class="col-4">
                                                 <div class="d-flex pb-1">
                                                     <label>Disc.Amt</label>
-                                                    <input type="text" class="width-100 position-absolute right-0" id="discount_amt" value="0" readonly/>
+                                                    <input type="text" class="width-100 position-absolute right-0 text-right" id="discount_amt" value="0" readonly/>
                                                 </div>
                                                 <div class="d-flex pb-1">
                                                     <label>GST.Amt</label>
-                                                    <input type="text" class="width-100 position-absolute right-0" id="gst_amt" value="0" readonly/>
+                                                    <input type="text" class="width-100 position-absolute right-0 text-right" id="gst_amt" value="0" readonly/>
                                                 </div>
                                                 <div class="d-flex pb-1">
                                                     <label>Drinks Amt</label>
-                                                    <input type="text" class="width-100 position-absolute right-0" id="drinks_amt" value="0" readonly/>
+                                                    <input type="text" class="width-100 position-absolute right-0 text-right" id="drinks_amt" value="0" readonly/>
                                                 </div>
                                                 <div class="d-flex pb-1">
                                                     <label>Net Amt</label>
-                                                    <input type="text" class="width-100 position-absolute right-0" id="net_amt" value="0" readonly/>
+                                                    <input type="text" class="width-100 position-absolute right-0 text-right" id="net_amt" value="0" readonly/>
                                                 </div>
                                             </div>
                                         </div>

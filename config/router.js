@@ -91,9 +91,13 @@ app.post('/fetchItem', billController.fetch_item);
 app.post('/fetch-item-by-code', billController.fetch_item_by_code);
 app.post('/fetch-item-by-table-no', billController.fetch_item_by_table_no);
 app.post('/submit-kot', billController.submit_kot);
-app.post('/entry_sale_bill', billController.entry_sale_bill);
-app.post('/entry_sale_item', billController.entry_sale_item);
-app.post('/calculate_bill', billController.calculate_bill)
+app.post('/entry-sale-bill', billController.entry_sale_bill);
+app.post('/entry-sale-item', billController.entry_sale_item);
+app.post('/calculate-bill', billController.calculate_bill);
+app.post('/apply-servicetax-discount-gst', billController.apply_servicetax_discount_gst);
+app.post('/update-discount-percentage', billController.update_discount_percentage);
+
+
 
 
 

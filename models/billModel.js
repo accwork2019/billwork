@@ -41,7 +41,7 @@ module.exports = {
   },
 	fetch_item_by_code: function(search_item_code, controllerCallback){
     try{
-			var sql = "SELECT * FROM item_master WHERE id = "+search_item_code+" ";
+			var sql = "SELECT * FROM item_master WHERE itcode = '"+search_item_code+"' ";
 			//dbObject.select(sql);
 			dbObject.query(sql, (err, result) => {
 				controllerCallback(err, result)    
@@ -52,13 +52,11 @@ module.exports = {
   },
 	fetch_item_by_table_no: function(search_table_no, controllerCallback){
     try{
-			var sql = "SELECT id,waiter,disctype FROM salebill WHERE `table` = '"+search_table_no+"' AND settle = 0";
+			var sql = "SELECT id,waiter,disctype,apply_s_tax,apply_discount,apply_gst,discper FROM salebill WHERE `table` = '"+search_table_no+"' AND settle = 0";
 			//dbObject.select(sql);
 			dbObject.query(sql, (err, result) => {
-				console.log(result)
 				if(result.length > 0 && typeof result != undefined){
 					var sql2 = "SELECT * FROM saleitem WHERE bill_id = "+result[0].id+" ";
-					console.log(sql2)
 					dbObject.query(sql2, (err, result1) => {
 						controllerCallback(err, result, result1)    
 					})
@@ -70,6 +68,7 @@ module.exports = {
 		} catch(e){
 			
 		}
+
   },
   add_kot: function(billId, controllerCallback){
 		
@@ -154,7 +153,7 @@ module.exports = {
 	},
 	get_bill_details_from_sailbill: function(table_no, controllerCallback){
 		try{
-			var sql = "SELECT id,disctype FROM salebill WHERE `table`='"+table_no+"' "; 
+			var sql = "SELECT id,disctype,apply_s_tax,apply_discount,apply_gst,discper FROM salebill WHERE `table`='"+table_no+"' "; 
 			dbObject.query(sql, (err, result) => {
 				controllerCallback(err, result) ;
 			})
@@ -213,6 +212,28 @@ module.exports = {
 	get_sub_total_drinks: function(table_id, controllerCallback){
     try{
 			var sql = "SELECT sum(amount) from saleitem where bill_id="+table_id+" and food_type='Drinks'";
+				dbObject.query(sql, (err, result) => {
+					controllerCallback(err, result)    
+				})
+		} catch(e){
+			controllerCallback(err, 0) 
+		}
+  },
+	apply_servicetax_discount_gst: function(table_no,add_service_tips_flag,add_discount_flag,discount_percentage,add_gst_flag, controllerCallback){
+    try{
+			var sql = "UPDATE salebill SET apply_s_tax='"+add_service_tips_flag+"', apply_discount='"+add_discount_flag+"', discper="+discount_percentage+", apply_gst='"+add_gst_flag+"'  WHERE `table`='"+table_no+"' "; 
+			console.log('apply_servicetax_discount_gst', sql)
+				dbObject.query(sql, (err, result) => {
+					controllerCallback(err, result)    
+				})
+		} catch(e){
+			controllerCallback(err, 0) 
+		}
+  },
+	update_discount_percentage: function(bill_id,discount_percentage, controllerCallback){
+    try{
+			var sql = "UPDATE salebill SET discper="+discount_percentage+" WHERE id='"+bill_id+"' "; 
+			
 				dbObject.query(sql, (err, result) => {
 					controllerCallback(err, result)    
 				})
